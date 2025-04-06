@@ -608,6 +608,11 @@ body {
   opacity: 0.6;
 }
 
+.display div {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .controls {
   background: var(--bg-dark-light);
   padding: 0.625rem;
