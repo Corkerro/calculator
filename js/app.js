@@ -52,9 +52,26 @@ function script_menuClose() {
     script_bodyUnlock();
     document.documentElement.classList.remove('menu-open');
 }
+function historyInit() {
+    if (document.querySelector('.history-button'))
+        document.addEventListener('click', function (e) {
+            if (script_bodyLockStatus && e.target.closest('.history-button')) {
+                script_bodyLockToggle();
+                document.documentElement.classList.toggle('history-open');
+            }
+        });
+}
+function historyClose() {
+    script_bodyUnlock();
+    document.documentElement.classList.remove('history-open');
+}
 script_menuInit();
+historyInit();
 document.querySelector('.menu__body').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) script_menuClose();
+});
+document.querySelector('.history__body').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) historyClose();
 });
 const menuButtons = document.querySelectorAll('.menu__link');
 menuButtons.forEach((button) => {
