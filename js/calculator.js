@@ -1,161 +1,188 @@
-const MEMORY_KEY = 'calculatorMemory';
+export class Calculator {
+    constructor() {
+        this.prevNumber = '';
+        this.currentNumber = '0';
+        this.operator = '';
+        this.memoryKey = 'calculatorMemory';
+        this.lastOperation = '';
+        this.justCalculated = false;
 
-const calculatorScreen = document.querySelector('.display__result.fz-big-1');
-const numbers = document.querySelectorAll('[id^="number-"]');
-const operators = document.querySelectorAll('.fz-medium-1.control');
-const equalSign = document.getElementById('calculate');
-const clearBtn = document.getElementById("clear");
-const decimal = document.getElementById("decimal");
-const plusMinus = document.getElementById("toggle-sing");
-const mcBtn = document.getElementById("mc-btn");
-const mrBtn = document.getElementById("mr-btn");
-const mPlusBtn = document.getElementById("m_plus-btn");
-const mMinusBtn = document.getElementById("m_minus-btn");
+        this.tempOperator = '';
+        this.tempNumber = '0';
+    }
 
-let prevNumber = '';
-let calculationOperator = '';
-let currentNumber = '0';
+    get display() {
+        const num = parseFloat(this.currentNumber);
+        if (isNaN(num)) return this.currentNumber;
+        // return Number.isInteger(num) ? num.toString() : num.toFixed(1);
 
-const updateScreen = (number) => {
-  const num = parseFloat(number);
-  if (isNaN(num)) {
-    calculatorScreen.textContent = number;
-  } else if (Number.isInteger(num)) {
-    calculatorScreen.textContent = num.toString(); 
-  } else {
-    calculatorScreen.textContent = num.toFixed(1); 
-  }
-};
+        return this.currentNumber;
+    }
 
-const inputNumber = (number) => { 
-  if (currentNumber === '0' || currentNumber === '-') {
-    currentNumber = (currentNumber === '-' ? '-' : '') + number;
-  } else {
-    currentNumber += number;        
-  }
-};
+    inputNumber(number) {
+        if (this.justCalculated) {
+            this.justCalculated = false;
+            this.clear();
+        }
 
-const inputDecimal = (dot) => {
-  if (currentNumber.includes(".")) return;
-  currentNumber += dot.trim();
-};
+        if (this.tempOperator !== '') {
+            this.currentNumber = '0';
+            this.tempOperator = '';
+        }
 
-const clearAll = () => {
-  prevNumber = '';
-  calculationOperator = '';
-  currentNumber = "0";
-};
+        if (this.currentNumber === '0' || this.currentNumber === '-') {
+            this.currentNumber = (this.currentNumber === '-' ? '-' : '') + number;
+        } else {
+            this.currentNumber += number;
+        }
+    }
 
-const inputOperator = (operator) => {
-  if (operator === '-' && (currentNumber === "0" || currentNumber === "")) {
-    currentNumber = "-";
-    updateScreen(currentNumber);
-    return;
-  }
-  if (prevNumber !== '' && currentNumber !== '' && currentNumber !== "-") {
-    calculate();
-    updateScreen(currentNumber);
-  }
-  calculationOperator = (operator === '÷') ? '/' : operator;
-  prevNumber = currentNumber;
-  currentNumber = '';
-};
+    inputDecimal() {
+        if (this.justCalculated) {
+            this.justCalculated = false;
+            this.clear();
+        }
 
-const calculate = () => { 
-  let result = '';
-  const num1 = parseFloat(prevNumber);
-  const num2 = parseFloat(currentNumber);
-  switch(calculationOperator) {
-    case '+':
-      result = num1 + num2;
-      break;
-    case '-':
-      result = num1 - num2;
-      break;
-    case '*':
-      result = num1 * num2;
-      break;
-    case '/':
-      result = num1 / num2;
-      break;
-    case '%': 
-      result = num1 * (num2 / 100);
-      break;
-    default:
-      return;
-  }
-  currentNumber = result.toString();
-  calculationOperator = '';
-  prevNumber = '';
-};
+        if (this.tempOperator !== '') {
+            this.currentNumber = '0';
+            this.tempOperator = '';
+        }
 
-const toggleSign = () => {
-  if (currentNumber === "-") return;
-  if (currentNumber.startsWith("-")) {
-    currentNumber = currentNumber.slice(1);
-  } else {
-    currentNumber = "-" + currentNumber;
-  }
-  updateScreen(currentNumber);
-};
+        if (!this.currentNumber.includes('.')) {
+            this.currentNumber += '.';
+        }
+    }
 
-const getMemory = () => {
-  const storedValue = localStorage.getItem(MEMORY_KEY);
-  return storedValue !== null ? parseFloat(storedValue) : 0;
-};
+    clear() {
+        this.currentNumber = '0';
+        this.reset();
+    }
 
-const setMemory = (value) => {
-  localStorage.setItem(MEMORY_KEY, value.toString());
-};
+    reset() {
+        this.prevNumber = '';
+        this.operator = '';
+        this.lastOperation = '';
+        this.tempNumber = '0';
+        this.tempOperator = '';
+    }
 
-const memoryClear = () => setMemory(0);
+    toggleSign() {
+        if (this.currentNumber === '-') return;
+        if (this.currentNumber.startsWith('-')) {
+            this.currentNumber = this.currentNumber.slice(1);
+        } else {
+            this.currentNumber = '-' + this.currentNumber;
+        }
+    }
 
-const memoryRecall = () => {
-  currentNumber = getMemory().toString();
-  updateScreen(currentNumber);
-};
+    setOperator(operator) {
+        if (operator === '+/-') {
+            this.toggleSign();
+            return;
+        }
 
-const memoryAdd = () => {
-  const mem = getMemory();
-  setMemory(mem + parseFloat(currentNumber));
-};
+        if (this.justCalculated) {
+            this.justCalculated = false;
+            this.reset();
+        }
 
-const memorySubtract = () => {
-  const mem = getMemory();
-  setMemory(mem - parseFloat(currentNumber));
-};
+        if (operator === '-' && (this.currentNumber === '0' || this.currentNumber === '')) {
+            this.currentNumber = '-';
+            return;
+        }
 
-numbers.forEach((number) => {
-  number.addEventListener("click", (event) => {
-    inputNumber(event.target.textContent.trim());
-    updateScreen(currentNumber);
-  });
-});
+        if (this.prevNumber !== '' && this.currentNumber !== '' && this.currentNumber !== '-') {
+            this.calculate();
+        }
 
-operators.forEach((operator) => {
-  operator.addEventListener("click", (event) => {
-    inputOperator(event.target.textContent.trim());
-  });
-});
+        this.operator = operator === '÷' ? '/' : operator;
+        this.tempOperator = this.operator;
+        this.prevNumber = this.currentNumber;
 
-equalSign.addEventListener("click", () => {
-  calculate();
-  updateScreen(currentNumber);
-});
+        this.tempNumber = this.currentNumber;
 
-clearBtn.addEventListener("click", () => {
-  clearAll();
-  updateScreen(currentNumber);
-});
+        this.lastOperation += `${this.currentNumber} ${operator}`;
+    }
 
-decimal.addEventListener("click", (event) => {
-  inputDecimal(event.target.textContent);
-  updateScreen(currentNumber);
-});
+    calculate() {
+        const num1 = parseFloat(this.justCalculated ? this.currentNumber : this.prevNumber);
+        const num2 = parseFloat(this.justCalculated ? this.prevNumber : this.currentNumber);
 
-plusMinus.addEventListener("click", toggleSign);
+        this.lastOperation = `${num1} ${this.operator} ${num2} =`;
 
-mcBtn.addEventListener("click", memoryClear);
-mrBtn.addEventListener("click", memoryRecall);
-mPlusBtn.addEventListener("click", memoryAdd);
-mMinusBtn.addEventListener("click", memorySubtract);
+        let result;
+        switch (this.operator) {
+            case '+':
+                result = num1 + num2;
+                break;
+            case '-':
+                result = num1 - num2;
+                break;
+            case '*':
+                result = num1 * num2;
+                break;
+            case '/':
+                result = num1 / num2;
+                break;
+            case '%':
+                result = num1 * (num2 / 100);
+                break;
+            default:
+                return;
+        }
+
+        this.prevNumber = num2;
+        this.currentNumber = result.toString();
+
+        this.justCalculated = true;
+    }
+
+    add(value) {
+        this.currentNumber = (parseFloat(this.currentNumber) + value).toString();
+    }
+
+    subtract(value) {
+        this.currentNumber = (parseFloat(this.currentNumber) - value).toString();
+    }
+
+    multiply(value) {
+        this.currentNumber = (parseFloat(this.currentNumber) * value).toString();
+    }
+
+    divide(value) {
+        this.currentNumber = (parseFloat(this.currentNumber) / value).toString();
+    }
+
+    percent(value) {
+        this.currentNumber = (parseFloat(this.currentNumber) * (value / 100)).toString();
+    }
+
+    // --- Memory Methods ---
+
+    getMemory() {
+        const stored = localStorage.getItem(this.memoryKey);
+        return stored !== null ? parseFloat(stored) : 0;
+    }
+
+    setMemory(value) {
+        localStorage.setItem(this.memoryKey, value.toString());
+    }
+
+    memoryClear() {
+        this.setMemory(0);
+    }
+
+    memoryRecall() {
+        this.currentNumber = this.getMemory().toString();
+    }
+
+    memoryAdd() {
+        const mem = this.getMemory();
+        this.setMemory(mem + parseFloat(this.currentNumber));
+    }
+
+    memorySubtract() {
+        const mem = this.getMemory();
+        this.setMemory(mem - parseFloat(this.currentNumber));
+    }
+}
