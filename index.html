@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="decemal standart-calculator">
     <head>
         <title>HomePage</title>
         <meta charset="UTF-8" />
@@ -33,7 +33,8 @@
                                                     <li class="menu__item">
                                                         <button
                                                             type="button"
-                                                            class="menu__link fz-small-2"
+                                                            data-calculator-type="standart-calculator"
+                                                            class="menu__link fz-small-2 _active"
                                                         >
                                                             Standart
                                                         </button>
@@ -41,6 +42,7 @@
                                                     <li class="menu__item">
                                                         <button
                                                             type="button"
+                                                            data-calculator-type="scientific-calculator"
                                                             class="menu__link fz-small-2"
                                                         >
                                                             Scientific
@@ -77,6 +79,7 @@
                                                     <li class="menu__item">
                                                         <button
                                                             type="button"
+                                                            data-calculator-system="binary"
                                                             class="menu__link fz-small-2"
                                                         >
                                                             Binary
@@ -85,7 +88,8 @@
                                                     <li class="menu__item">
                                                         <button
                                                             type="button"
-                                                            class="menu__link fz-small-2"
+                                                            data-calculator-system="decemal"
+                                                            class="menu__link fz-small-2 _active"
                                                         >
                                                             Decemal
                                                         </button>
@@ -93,13 +97,31 @@
                                                     <li class="menu__item">
                                                         <button
                                                             type="button"
+                                                            data-calculator-system="hex"
                                                             class="menu__link fz-small-2"
                                                         >
                                                             Hexademical
                                                         </button>
                                                     </li>
                                                 </ul>
-                                                <button type="button" class="fz-small-2">
+                                                <button
+                                                    type="button"
+                                                    class="fz-small-2 pupup-btn"
+                                                    data-popup="#popup"
+                                                >
+                                                    <svg
+                                                        width="24"
+                                                        height="24"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        <path
+                                                            d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.521 8.904 12.713 8.712C12.905 8.52 13.0007 8.28267 13 8C12.9993 7.71733 12.9033 7.48 12.712 7.288C12.5207 7.096 12.2833 7 12 7C11.7167 7 11.4793 7.096 11.288 7.288C11.0967 7.48 11.0007 7.71733 11 8C10.9993 8.28267 11.0953 8.52033 11.288 8.713C11.4807 8.90567 11.718 9.00133 12 9ZM12 22C10.6167 22 9.31667 21.7373 8.1 21.212C6.88334 20.6867 5.825 19.9743 4.925 19.075C4.025 18.1757 3.31267 17.1173 2.788 15.9C2.26333 14.6827 2.00067 13.3827 2 12C1.99933 10.6173 2.262 9.31733 2.788 8.1C3.314 6.88267 4.02633 5.82433 4.925 4.925C5.82367 4.02567 6.882 3.31333 8.1 2.788C9.318 2.26267 10.618 2 12 2C13.382 2 14.682 2.26267 15.9 2.788C17.118 3.31333 18.1763 4.02567 19.075 4.925C19.9737 5.82433 20.6863 6.88267 21.213 8.1C21.7397 9.31733 22.002 10.6173 22 12C21.998 13.3827 21.7353 14.6827 21.212 15.9C20.6887 17.1173 19.9763 18.1757 19.075 19.075C18.1737 19.9743 17.1153 20.687 15.9 21.213C14.6847 21.739 13.3847 22.0013 12 22Z"
+                                                            fill="white"
+                                                        />
+                                                    </svg>
+
                                                     Info
                                                 </button>
                                             </div>
@@ -287,7 +309,14 @@
                                     </button>
                                 </div>
 
-                                <div class="controls__grid">
+                                <div class="controls__grid decemal standart-calculator">
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 control scientific-btn"
+                                        id="reciprocal"
+                                    >
+                                        1/x
+                                    </button>
                                     <button type="button" class="fz-medium-1 control" id="clear">
                                         C
                                     </button>
@@ -305,6 +334,13 @@
                                         ÷
                                     </button>
 
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 control scientific-btn"
+                                        id="factorial"
+                                    >
+                                        x!
+                                    </button>
                                     <button
                                         type="button"
                                         class="fz-medium-1 keyboard"
@@ -332,6 +368,13 @@
 
                                     <button
                                         type="button"
+                                        class="fz-medium-1 control scientific-btn"
+                                        id="power"
+                                    >
+                                        x<sup>y</sup>
+                                    </button>
+                                    <button
+                                        type="button"
                                         class="fz-medium-1 keyboard"
                                         id="number-4"
                                     >
@@ -355,6 +398,13 @@
                                         +
                                     </button>
 
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 control scientific-btn"
+                                        id="sqrt"
+                                    >
+                                        √x
+                                    </button>
                                     <button
                                         type="button"
                                         class="fz-medium-1 keyboard"
@@ -382,6 +432,13 @@
 
                                     <button
                                         type="button"
+                                        class="fz-medium-1 control scientific-btn"
+                                        id="log"
+                                    >
+                                        log
+                                    </button>
+                                    <button
+                                        type="button"
                                         class="fz-medium-1 keyboard"
                                         id="number-0"
                                     >
@@ -393,6 +450,242 @@
                                     <button type="button" class="fz-medium-1 send" id="calculate">
                                         =
                                     </button>
+                                </div>
+
+                                <div class="controls__grid hex hex-calculator">
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 control"
+                                        id="reciprocal"
+                                    >
+                                        1/x
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="clear">
+                                        C
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 control"
+                                        id="toggle-sing"
+                                    >
+                                        +/-
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="percent">
+                                        %
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="divide">
+                                        ÷
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-D"
+                                    >
+                                        D
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-E"
+                                    >
+                                        E
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-F"
+                                    >
+                                        F
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="power">
+                                        x<sup>y</sup>
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="multiply">
+                                        *
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-9"
+                                    >
+                                        9
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-A"
+                                    >
+                                        A
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-B"
+                                    >
+                                        B
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-C"
+                                    >
+                                        C
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="sqrt">
+                                        √x
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-5"
+                                    >
+                                        5
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-6"
+                                    >
+                                        6
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-7"
+                                    >
+                                        7
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-8"
+                                    >
+                                        8
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="plus">
+                                        +
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-1"
+                                    >
+                                        1
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-2"
+                                    >
+                                        2
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-3"
+                                    >
+                                        3
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-4"
+                                    >
+                                        4
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="minus">
+                                        -
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard _zero"
+                                        id="number-0"
+                                    >
+                                        0
+                                    </button>
+                                    <button type="button" class="fz-medium-1 keyboard" id="point">
+                                        .
+                                    </button>
+                                    <button type="button" class="fz-medium-1 send" id="calculate">
+                                        =
+                                    </button>
+                                </div>
+
+                                <div class="controls__grid binary binary-calculator">
+                                    <button type="button" class="fz-medium-1 control" id="clear">
+                                        C
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="percent">
+                                        %
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="divide">
+                                        ÷
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="plus">
+                                        +
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 control"
+                                        id="toggle-sing"
+                                    >
+                                        +/-
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="power">
+                                        x<sup>y</sup>
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="multiply">
+                                        *
+                                    </button>
+                                    <button type="button" class="fz-medium-1 control" id="minus">
+                                        -
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-0"
+                                    >
+                                        0
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-1"
+                                    >
+                                        1
+                                    </button>
+
+                                    <button type="button" class="fz-medium-1 send" id="calculate">
+                                        =
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="popup" aria-hidden="true" class="popup">
+                        <div class="popup__wrapper">
+                            <div class="popup__content">
+                                <button data-close type="button" class="popup__close">Close</button>
+                                <div class="popup__text">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Et
+                                    exercitationem repellat praesentium est distinctio, maiores
+                                    inventore? Deserunt maiores autem repudiandae voluptas fugit
+                                    iste quibusdam esse eum aperiam, officia, a nostrum! Lorem ipsum
+                                    dolor sit amet consectetur adipisicing elit. Et exercitationem
+                                    repellat praesentium est distinctio, maiores inventore? Deserunt
+                                    maiores autem repudiandae voluptas fugit iste quibusdam esse eum
+                                    aperiam, officia, a nostrum! Lorem ipsum dolor sit amet
+                                    consectetur adipisicing elit. Et exercitationem repellat
+                                    praesentium est distinctio, maiores inventore? Deserunt maiores
+                                    autem repudiandae voluptas fugit iste quibusdam esse eum
+                                    aperiam, officia, a nostrum!
                                 </div>
                             </div>
                         </div>

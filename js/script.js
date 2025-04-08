@@ -6,8 +6,8 @@ const calculatorScreen = document.querySelector('.display__result.fz-big-1');
 const lastOperation = document.querySelector('#last-operation');
 const numbers = document.querySelectorAll('[id^="number-"]');
 const operators = document.querySelectorAll('.fz-medium-1.control');
-const equalSign = document.getElementById('calculate');
-const clearBtn = document.getElementById('clear');
+const equalSign = document.querySelectorAll('#calculate');
+const clearBtn = document.querySelectorAll('#clear');
 const decimal = document.getElementById('decimal');
 const plusMinus = document.getElementById('toggle-sing');
 const mcBtn = document.getElementById('mc-btn');
@@ -34,14 +34,18 @@ operators.forEach((operator) => {
     });
 });
 
-equalSign.addEventListener('click', () => {
-    calculator.calculate();
-    updateScreen();
+equalSign.forEach((btn) => {
+    btn.addEventListener('click', () => {
+        calculator.calculate();
+        updateScreen();
+    });
 });
 
-clearBtn.addEventListener('click', () => {
-    calculator.clear();
-    updateScreen();
+clearBtn.forEach((btn) => {
+    btn.addEventListener('click', () => {
+        calculator.clear();
+        updateScreen();
+    });
 });
 
 decimal.addEventListener('click', (event) => {

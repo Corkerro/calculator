@@ -73,9 +73,69 @@ document.querySelector('.menu__body').addEventListener('click', (e) => {
 document.querySelector('.history__body').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) historyClose();
 });
-const menuButtons = document.querySelectorAll('.menu__link');
-menuButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        script_menuClose();
+const changeCalculatorTypeButton = document.querySelectorAll('[data-calculator-type]');
+const changeSystemTypeButton = document.querySelectorAll('[data-calculator-system]');
+function actionAfterMenuButtonClick() {
+    script_menuClose();
+}
+const html = document.querySelector('html');
+changeCalculatorTypeButton.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        const clickedButton = e.currentTarget;
+        const gridDisplay = document.querySelector('.controls__grid.decemal');
+        const newType = clickedButton.dataset.calculatorType;
+        changeCalculatorTypeButton.forEach((btn) => {
+            const type = btn.dataset.calculatorType;
+            btn.classList.remove('_active');
+            html.classList.remove(type);
+            gridDisplay.classList.remove(type);
+        });
+        clickedButton.classList.add('_active');
+        html.classList.add(newType);
+        gridDisplay.classList.add(newType);
+        actionAfterMenuButtonClick();
     });
 });
+changeSystemTypeButton.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        const clickedButton = e.currentTarget;
+        const newType = clickedButton.dataset.calculatorSystem;
+        changeSystemTypeButton.forEach((btn) => {
+            const type = btn.dataset.calculatorSystem;
+            btn.classList.remove('_active');
+            html.classList.remove(type);
+        });
+        if (newType != 'decemal')
+            changeCalculatorTypeButton.forEach((btn) => {
+                btn.classList.add('disabled');
+                console.log(btn);
+            });
+        else
+            changeCalculatorTypeButton.forEach((btn) => {
+                btn.classList.remove('disabled');
+            });
+        clickedButton.classList.add('_active');
+        html.classList.add(newType);
+        actionAfterMenuButtonClick();
+    });
+});
+const popupButtons = document.querySelectorAll('[data-popup]');
+popupButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => openPopup(e));
+});
+function openPopup(e) {
+    const clickedButton = e.currentTarget;
+    const popupBody = document.querySelector(clickedButton.dataset.popup);
+    const popupContent = popupBody.querySelector('.popup__content');
+    html.classList.add('popup-show');
+    popupBody.classList.add('popup_show');
+    const closeButton = popupBody.querySelector('.popup__close');
+    closeButton.addEventListener('click', () => closePopup(popupBody));
+    popupBody.addEventListener('click', (event) => {
+        if (!popupContent.contains(event.target)) closePopup(popupBody);
+    });
+}
+function closePopup(popupBody) {
+    html.classList.remove('popup-show');
+    popupBody.classList.remove('popup_show');
+}
