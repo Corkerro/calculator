@@ -186,3 +186,59 @@ export class Calculator {
         this.setMemory(mem - parseFloat(this.currentNumber));
     }
 }
+
+export class ScientificCalculator extends Calculator {
+    constructor() {
+        super();
+    }
+
+    reciprocal() {
+        let num = parseFloat(this.currentNumber);
+        if(num === 0){
+            console.error("Cannot divide by zero");
+            this.currentNumber = "Cannot divide by zero";
+
+            setTimeout(() => {
+                this.clear();
+            }, 3000);
+            return; 
+        }
+        this.currentNumber = (1 / num).toString();
+    }
+    
+    factorial() {
+        let num = parseFloat(this.currentNumber);
+        let result = 1;
+        for (let i = 1; i <= num; i++) {
+            result *= i;
+        }
+        this.currentNumber = result.toString();
+    }
+
+    power() {
+        //пока так, потом поменяю, не смог разобраться как сделать возведение в введнное второе число
+        if (this.justCalculated) {
+            this.justCalculated = false;
+            this.clear();
+        }
+        this.currentNumber = Math.pow(parseFloat(this.currentNumber), 2).toString();
+    }
+    
+    squareRoot() {
+        this.currentNumber = Math.sqrt(parseFloat(this.currentNumber)).toString();
+    }
+
+    logarithm() {
+        let num = parseFloat(this.currentNumber);
+        if(num === 0){
+            console.error("Invalid input");
+            this.currentNumber = "Invalid input";
+
+            setTimeout(() => {
+                this.clear();
+            }, 3000);
+            return; 
+        }
+        this.currentNumber = Math.log10(parseFloat(this.currentNumber)).toString();
+    }
+}

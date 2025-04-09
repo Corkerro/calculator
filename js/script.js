@@ -1,6 +1,6 @@
-import { Calculator } from './calculator.js';
+import { ScientificCalculator } from './calculator.js';
 
-const calculator = new Calculator();
+const calculator = new ScientificCalculator();
 
 const calculatorScreen = document.querySelector('.display__result.fz-big-1');
 const lastOperation = document.querySelector('#last-operation');
@@ -102,4 +102,35 @@ window.addEventListener('keydown', (event) => {
         calculator.clear();
         updateScreen();
     }
+});
+
+const scientificFactoialBtn = document.getElementById('factorial');
+const scientificReciprocalBtn = document.getElementById('reciprocal');
+const scientificPowerBtn = document.getElementById('power');
+const scientificSquareRootBtn = document.getElementById('sqrt');
+const scientificLogarithmBtn = document.getElementById('log');
+
+scientificFactoialBtn.addEventListener('click', () => {
+    calculator.factorial();
+    updateScreen();
+});
+
+scientificReciprocalBtn.addEventListener('click', () => {
+    calculator.reciprocal();
+    updateScreen();
+});
+
+scientificPowerBtn.addEventListener('click', () => {
+    calculator.power();
+    updateScreen();
+}); 
+
+scientificSquareRootBtn.addEventListener('click', () => {
+    calculator.squareRoot();
+    updateScreen();
+}); 
+
+scientificLogarithmBtn.addEventListener('click', () => {
+    calculator.logarithm();
+    updateScreen();
 });
