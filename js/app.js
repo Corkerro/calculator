@@ -108,7 +108,7 @@ changeSystemTypeButton.forEach((button) => {
         if (newType != 'decemal')
             changeCalculatorTypeButton.forEach((btn) => {
                 btn.classList.add('disabled');
-                console.log(btn);
+                //console.log(btn);
             });
         else
             changeCalculatorTypeButton.forEach((btn) => {

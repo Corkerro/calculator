@@ -129,8 +129,7 @@ export class Calculator {
                 break;
             case 'y':
             case 'xy':
-                result = Math.pow(num1, num2);
-                console.log(result);    
+                result = Math.pow(num1, num2); 
                 break;
             default:
                 return;
@@ -238,3 +237,75 @@ export class ScientificCalculator extends Calculator {
         this.currentNumber = Math.log10(parseFloat(this.currentNumber)).toString();
     }
 }
+
+export class BinaryCalculator extends Calculator {
+    constructor() {
+        super();
+        this.isBinaryMode = true;
+        this.currentNumber = ''; 
+    }
+    binaryToDecimal(binaryStr) {
+        return parseInt(binaryStr, 2);
+    }
+
+    decimalToBinary(decimalNumber) {
+        return decimalNumber.toString(2);
+    }
+
+    clear() {
+        this.currentNumber = '';
+        this.reset();
+    }
+
+    inputNumber(number) {
+        if (number !== '0' && number !== '1') return;
+        
+        if (this.justCalculated) {
+            this.justCalculated = false;
+            this.clear();
+        }
+
+        if (this.tempOperator !== '') {
+            this.currentNumber = '';
+            this.tempOperator = '';
+        }
+
+        this.currentNumber += number;
+    }
+
+    calculate() {
+        const num1 = this.binaryToDecimal(this.prevNumber);
+        const num2 = this.binaryToDecimal(this.currentNumber);
+
+        this.lastOperation = `${this.prevNumber} ${this.operator} ${this.currentNumber} =`;
+
+        let result;
+        switch (this.operator) {
+            case '+':
+                result = num1 + num2;
+                break;
+            case '-':
+                result = num1 - num2;
+                break;
+            case '*':
+                result = num1 * num2;
+                break;
+            case '/':
+                result = num1 / num2;
+                break;
+            case '%':
+                result = num1 * (num2 / 100);
+                break;
+            case 'y':
+            case 'xy':
+                result = Math.pow(num1, num2); 
+                break;
+            default:
+                return;
+        }
+        this.prevNumber = this.currentNumber;
+        this.currentNumber = this.decimalToBinary(result);
+        this.justCalculated = true;
+    }
+}
+
