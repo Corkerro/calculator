@@ -5,7 +5,9 @@ let calculator = new ScientificCalculator();
 const calculatorScreen = document.querySelector('.display__result.fz-big-1');
 const lastOperation = document.querySelector('#last-operation');
 const numbers = document.querySelectorAll('[id^="number-"]');
-const operators = document.querySelectorAll('.fz-medium-1.control, fz-medium-1.control.scientific-btn');
+const operators = document.querySelectorAll(
+    '.fz-medium-1.control, fz-medium-1.control.scientific-btn',
+);
 const equalSign = document.querySelectorAll('#calculate');
 const clearBtn = document.querySelectorAll('#clear');
 const decimal = document.getElementById('decimal');
@@ -140,7 +142,7 @@ scientificReciprocalBtn.addEventListener('click', () => {
 scientificSquareRootBtn.addEventListener('click', () => {
     calculator.squareRoot();
     updateScreen();
-}); 
+});
 
 scientificLogarithmBtn.addEventListener('click', () => {
     calculator.logarithm();
@@ -154,7 +156,7 @@ binaryModeBtn.addEventListener('click', () => {
 
 scientificModeBtn.addEventListener('click', () => {
     calculator = new ScientificCalculator();
-    updateScreen(); 
+    updateScreen();
 });
 
 decimalModeBtn.addEventListener('click', () => {

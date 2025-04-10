@@ -129,7 +129,7 @@ export class Calculator {
                 break;
             case 'y':
             case 'xy':
-                result = Math.pow(num1, num2); 
+                result = Math.pow(num1, num2);
                 break;
             default:
                 return;
@@ -198,18 +198,18 @@ export class ScientificCalculator extends Calculator {
 
     reciprocal() {
         let num = parseFloat(this.currentNumber);
-        if(num === 0){
-            console.error("Cannot divide by zero");
-            this.currentNumber = "Cannot divide by zero";
+        if (num === 0) {
+            console.error('Cannot divide by zero');
+            this.currentNumber = 'Cannot divide by zero';
 
             setTimeout(() => {
                 this.clear();
             }, 3000);
-            return; 
+            return;
         }
         this.currentNumber = (1 / num).toString();
     }
-    
+
     factorial() {
         let num = parseFloat(this.currentNumber);
         let result = 1;
@@ -218,21 +218,21 @@ export class ScientificCalculator extends Calculator {
         }
         this.currentNumber = result.toString();
     }
-    
+
     squareRoot() {
         this.currentNumber = Math.sqrt(parseFloat(this.currentNumber)).toString();
     }
 
     logarithm() {
         let num = parseFloat(this.currentNumber);
-        if(num === 0){
-            console.error("Invalid input");
-            this.currentNumber = "Invalid input";
+        if (num === 0) {
+            console.error('Invalid input');
+            this.currentNumber = 'Invalid input';
 
             setTimeout(() => {
                 this.clear();
             }, 3000);
-            return; 
+            return;
         }
         this.currentNumber = Math.log10(parseFloat(this.currentNumber)).toString();
     }
@@ -242,7 +242,7 @@ export class BinaryCalculator extends Calculator {
     constructor() {
         super();
         this.isBinaryMode = true;
-        this.currentNumber = ''; 
+        this.currentNumber = '';
     }
     binaryToDecimal(binaryStr) {
         return parseInt(binaryStr, 2);
@@ -259,7 +259,7 @@ export class BinaryCalculator extends Calculator {
 
     inputNumber(number) {
         if (number !== '0' && number !== '1') return;
-        
+
         if (this.justCalculated) {
             this.justCalculated = false;
             this.clear();
@@ -298,7 +298,7 @@ export class BinaryCalculator extends Calculator {
                 break;
             case 'y':
             case 'xy':
-                result = Math.pow(num1, num2); 
+                result = Math.pow(num1, num2);
                 break;
             default:
                 return;
@@ -308,4 +308,3 @@ export class BinaryCalculator extends Calculator {
         this.justCalculated = true;
     }
 }
-

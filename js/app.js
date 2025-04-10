@@ -1,3 +1,7 @@
+import { Convertor } from './convertor.js';
+
+let converType = null;
+
 let script_bodyLockStatus = true;
 let script_bodyLockToggle = (delay = 500) => {
     if (document.documentElement.classList.contains('lock')) script_bodyUnlock(delay);
@@ -75,6 +79,8 @@ document.querySelector('.history__body').addEventListener('click', (e) => {
 });
 const changeCalculatorTypeButton = document.querySelectorAll('[data-calculator-type]');
 const changeSystemTypeButton = document.querySelectorAll('[data-calculator-system]');
+const convertButtons = document.querySelectorAll('[data-convert]');
+const convertTypes = ['length', 'mass', 'volume'];
 function actionAfterMenuButtonClick() {
     script_menuClose();
 }
@@ -84,6 +90,7 @@ changeCalculatorTypeButton.forEach((button) => {
         const clickedButton = e.currentTarget;
         const gridDisplay = document.querySelector('.controls__grid.decemal');
         const newType = clickedButton.dataset.calculatorType;
+        converType = null;
         changeCalculatorTypeButton.forEach((btn) => {
             const type = btn.dataset.calculatorType;
             btn.classList.remove('_active');
@@ -93,6 +100,36 @@ changeCalculatorTypeButton.forEach((button) => {
         clickedButton.classList.add('_active');
         html.classList.add(newType);
         gridDisplay.classList.add(newType);
+        convertTypesClear();
+        html.classList.remove('convert');
+        convertButtons.forEach((convBtn) => {
+            convBtn.classList.remove('_active');
+        });
+        actionAfterMenuButtonClick();
+    });
+});
+function convertTypesClear() {
+    convertTypes.forEach((type) => {
+        html.classList.remove(type);
+        html.classList.remove(`convert-${type}`);
+    });
+}
+convertButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        clearConvert();
+        changeCalculatorTypeButton.forEach((btn) => {
+            btn.classList.remove('_active');
+        });
+        convertButtons.forEach((btn) => {
+            btn.classList.remove('_active');
+        });
+        const newType = button.dataset.convert;
+        converType = newType;
+        convertTypesClear();
+        html.classList.add(`convert-${newType}`);
+        html.classList.add('convert');
+        button.classList.add('_active');
+
         actionAfterMenuButtonClick();
     });
 });
@@ -105,15 +142,6 @@ changeSystemTypeButton.forEach((button) => {
             btn.classList.remove('_active');
             html.classList.remove(type);
         });
-        if (newType != 'decemal')
-            changeCalculatorTypeButton.forEach((btn) => {
-                btn.classList.add('disabled');
-                //console.log(btn);
-            });
-        else
-            changeCalculatorTypeButton.forEach((btn) => {
-                btn.classList.remove('disabled');
-            });
         clickedButton.classList.add('_active');
         html.classList.add(newType);
         actionAfterMenuButtonClick();
@@ -139,3 +167,103 @@ function closePopup(popupBody) {
     html.classList.remove('popup-show');
     popupBody.classList.remove('popup_show');
 }
+
+const convertor = new Convertor();
+
+const clearBtn = document.querySelectorAll('#clear');
+const numbers = document.querySelectorAll('[id^="number-"]');
+const decimal = document.querySelectorAll('#decimal');
+const initScreen = document.querySelectorAll('.display .top .init-input');
+const calculateScreen = document.querySelectorAll('.display .down .calculate-text');
+
+const updateScreen = () => {
+    convertValues();
+
+    initScreen.forEach((screen) => {
+        screen.textContent = convertor.currentValue;
+    });
+    calculateScreen.forEach((screen, i) => {
+        screen.textContent = convertor.calculatedValue[i];
+    });
+};
+
+decimal.forEach((el) => {
+    el.addEventListener('click', () => {
+        if (!convertor.currentValue.includes('.')) {
+            convertor.setCurrentValue('.');
+            updateScreen();
+        }
+    });
+});
+
+clearBtn.forEach((btn) => {
+    btn.addEventListener('click', clearConvert);
+});
+
+function clearConvert() {
+    convertor.currentValue = '0';
+    convertor.calculatedValue = ['0', '0', '0'];
+    updateScreen();
+}
+
+numbers.forEach((number) => {
+    number.addEventListener('click', (e) => {
+        convertor.setCurrentValue(number.textContent);
+        updateScreen();
+    });
+});
+
+const selects = document.querySelectorAll('.display._convertor select');
+
+selects.forEach((sel) => {
+    sel.addEventListener('change', (e) => {
+        convertValues();
+        updateScreen();
+    });
+});
+
+const convertValues = () => {
+    console.log('Convert');
+
+    const convertLengthFrom = document.querySelector(
+        '.display._convertor.convert-length .top select',
+    ).value;
+    const convertLengthTo = document.querySelector(
+        '.display._convertor.convert-length .down select',
+    ).value;
+
+    const convertMassFrom = document.querySelector(
+        '.display._convertor.convert-mass .top select',
+    ).value;
+    const convertMassTo = document.querySelector(
+        '.display._convertor.convert-mass .down select',
+    ).value;
+
+    const convertVolumeFrom = document.querySelector(
+        '.display._convertor.convert-volume .top select',
+    ).value;
+    const convertVolumeTo = document.querySelector(
+        '.display._convertor.convert-volume .down select',
+    ).value;
+    convertor.convertLength(convertLengthFrom, convertLengthTo);
+    convertor.convertWeight(convertMassFrom, convertMassTo);
+    convertor.convertVolume(convertVolumeFrom, convertVolumeTo);
+};
+
+window.addEventListener('keydown', (event) => {
+    const key = event.key;
+
+    if (key >= '0' && key <= '9') {
+        convertor.setCurrentValue(key);
+        updateScreen();
+    }
+
+    if (key === '.') {
+        convertor.setCurrentValue('.');
+        updateScreen();
+    }
+
+    if (key === 'Escape') {
+        clearConvert();
+    }
+});

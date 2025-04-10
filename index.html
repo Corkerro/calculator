@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="decemal standart-calculator">
     <head>
         <title>HomePage</title>
@@ -6,7 +6,6 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- <style>body{opacity: 0;}</style> -->
         <link rel="stylesheet" href="css/style.css" />
-        <!-- <meta name="robots" content="noindex, nofollow"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
 
@@ -35,7 +34,6 @@
                                                             type="button"
                                                             data-calculator-type="standart-calculator"
                                                             class="menu__link fz-small-2 _active"
-                                                            id="standart"
                                                         >
                                                             Standart
                                                         </button>
@@ -45,7 +43,6 @@
                                                             type="button"
                                                             data-calculator-type="scientific-calculator"
                                                             class="menu__link fz-small-2"
-                                                            id="scientific"
                                                         >
                                                             Scientific
                                                         </button>
@@ -55,6 +52,7 @@
                                                     <li class="menu__item">
                                                         <button
                                                             type="button"
+                                                            data-convert="volume"
                                                             class="menu__link fz-small-2"
                                                         >
                                                             Volume
@@ -63,6 +61,7 @@
                                                     <li class="menu__item">
                                                         <button
                                                             type="button"
+                                                            data-convert="length"
                                                             class="menu__link fz-small-2"
                                                         >
                                                             Length
@@ -71,6 +70,7 @@
                                                     <li class="menu__item">
                                                         <button
                                                             type="button"
+                                                            data-convert="mass"
                                                             class="menu__link fz-small-2"
                                                         >
                                                             Weight and mass
@@ -83,7 +83,6 @@
                                                             type="button"
                                                             data-calculator-system="binary"
                                                             class="menu__link fz-small-2"
-                                                            id="binary"
                                                         >
                                                             Binary
                                                         </button>
@@ -93,7 +92,6 @@
                                                             type="button"
                                                             data-calculator-system="decemal"
                                                             class="menu__link fz-small-2 _active"
-                                                            id="decemal"
                                                         >
                                                             Decemal
                                                         </button>
@@ -293,12 +291,102 @@
                                         </div>
                                     </div>
                                 </header>
-                                <div class="display">
+                                <div class="display _calculator">
                                     <div
                                         class="display__story fz-small-1"
                                         id="last-operation"
                                     ></div>
                                     <div class="display__result fz-big-1" id="result">0</div>
+                                </div>
+
+                                <div class="display _convertor convert-volume">
+                                    <div class="top">
+                                        <span class="init-input fz-big-1">0</span>
+
+                                        <div>
+                                            <select name="initValue" class="fz-small-1">
+                                                <option value="L" selected>Liters</option>
+                                                <option value="mL">Milliliters</option>
+                                                <option value="m3">Cubic meters</option>
+                                                <option value="gal">Gallons</option>
+                                                <option value="pt">Pints</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="down">
+                                        <span class="calculate-text fz-medium-1">0</span>
+
+                                        <div>
+                                            <select name="calculateValue" class="fz-small-2">
+                                                <option value="L">Liters</option>
+                                                <option value="mL" selected>Milliliters</option>
+                                                <option value="m3">Cubic meters</option>
+                                                <option value="gal">Gallons</option>
+                                                <option value="pt">Pints</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="display _convertor convert-length">
+                                    <div class="top">
+                                        <span class="init-input fz-big-1">0</span>
+
+                                        <div>
+                                            <select name="initValue" class="fz-small-1">
+                                                <option value="m" selected>Meters</option>
+                                                <option value="cm">Centimeter</option>
+                                                <option value="mm">Millimeters</option>
+                                                <option value="in">Inches</option>
+                                                <option value="ft">Foots</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="down">
+                                        <span class="calculate-text fz-medium-1">0</span>
+
+                                        <div>
+                                            <select name="calculateValue" class="fz-small-2">
+                                                <option value="m">Meters</option>
+                                                <option value="cm" selected>Centimeter</option>
+                                                <option value="mm">Millimeters</option>
+                                                <option value="in">Inches</option>
+                                                <option value="ft">Foots</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="display _convertor convert-mass">
+                                    <div class="top">
+                                        <span class="init-input fz-big-1">0</span>
+
+                                        <div>
+                                            <select name="initValue" class="fz-small-1">
+                                                <option value="kg" selected>Kilograms</option>
+                                                <option value="g">Milligrams</option>
+                                                <option value="g">Grams</option>
+                                                <option value="lb">Pounds</option>
+                                                <option value="oz">Ounces</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="down">
+                                        <span class="calculate-text fz-medium-1">0</span>
+
+                                        <div>
+                                            <select name="calculateValue" class="fz-small-2">
+                                                <option value="kg">Kilograms</option>
+                                                <option value="g" selected>Milligrams</option>
+                                                <option value="g">Grams</option>
+                                                <option value="lb">Pounds</option>
+                                                <option value="oz">Ounces</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="calculator__controls controls">
@@ -374,7 +462,6 @@
                                         type="button"
                                         class="fz-medium-1 control scientific-btn"
                                         id="power"
-                                        data-operator="x^y"
                                     >
                                         x<sup>y</sup>
                                     </button>
@@ -613,7 +700,7 @@
                                     >
                                         0
                                     </button>
-                                    <button type="button" class="fz-medium-1 keyboard" id="point">
+                                    <button type="button" class="fz-medium-1 keyboard" id="decimal">
                                         .
                                     </button>
                                     <button type="button" class="fz-medium-1 send" id="calculate">
@@ -671,6 +758,89 @@
                                         =
                                     </button>
                                 </div>
+
+                                <div class="controls__grid convert convert-calculator">
+                                    <button type="button" class="fz-medium-1 control" id="clear">
+                                        C
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-7"
+                                    >
+                                        7
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-8"
+                                    >
+                                        8
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-9"
+                                    >
+                                        9
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-4"
+                                    >
+                                        4
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-5"
+                                    >
+                                        5
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-6"
+                                    >
+                                        6
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-1"
+                                    >
+                                        1
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-2"
+                                    >
+                                        2
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-3"
+                                    >
+                                        3
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="fz-medium-1 keyboard"
+                                        id="number-0"
+                                    >
+                                        0
+                                    </button>
+                                    <button type="button" class="fz-medium-1 keyboard" id="decimal">
+                                        .
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -698,7 +868,8 @@
                 </div>
             </main>
         </div>
-        <script src="js/app.js"></script>
+        <script type="module" src="js/convertor.js"></script>
+        <script type="module" src="js/app.js"></script>
         <script type="module" src="js/calculator.js"></script>
         <script type="module" src="js/script.js"></script>
     </body>
