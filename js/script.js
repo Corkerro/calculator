@@ -5,7 +5,7 @@ const calculator = new ScientificCalculator();
 const calculatorScreen = document.querySelector('.display__result.fz-big-1');
 const lastOperation = document.querySelector('#last-operation');
 const numbers = document.querySelectorAll('[id^="number-"]');
-const operators = document.querySelectorAll('.fz-medium-1.control');
+const operators = document.querySelectorAll('.fz-medium-1.control, fz-medium-1.control.scientific-btn');
 const equalSign = document.querySelectorAll('#calculate');
 const clearBtn = document.querySelectorAll('#clear');
 const decimal = document.getElementById('decimal');
@@ -30,6 +30,7 @@ numbers.forEach((number) => {
 operators.forEach((operator) => {
     operator.addEventListener('click', (event) => {
         calculator.setOperator(event.target.textContent.trim());
+        console.log(event.target.textContent.trim());
         updateScreen();
     });
 });
@@ -104,9 +105,9 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
+//Science calc
 const scientificFactoialBtn = document.getElementById('factorial');
 const scientificReciprocalBtn = document.getElementById('reciprocal');
-const scientificPowerBtn = document.getElementById('power');
 const scientificSquareRootBtn = document.getElementById('sqrt');
 const scientificLogarithmBtn = document.getElementById('log');
 
@@ -119,11 +120,6 @@ scientificReciprocalBtn.addEventListener('click', () => {
     calculator.reciprocal();
     updateScreen();
 });
-
-scientificPowerBtn.addEventListener('click', () => {
-    calculator.power();
-    updateScreen();
-}); 
 
 scientificSquareRootBtn.addEventListener('click', () => {
     calculator.squareRoot();

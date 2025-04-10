@@ -127,6 +127,11 @@ export class Calculator {
             case '%':
                 result = num1 * (num2 / 100);
                 break;
+            case 'y':
+            case 'xy':
+                result = Math.pow(num1, num2);
+                console.log(result);    
+                break;
             default:
                 return;
         }
@@ -213,15 +218,6 @@ export class ScientificCalculator extends Calculator {
             result *= i;
         }
         this.currentNumber = result.toString();
-    }
-
-    power() {
-        //пока так, потом поменяю, не смог разобраться как сделать возведение в введнное второе число
-        if (this.justCalculated) {
-            this.justCalculated = false;
-            this.clear();
-        }
-        this.currentNumber = Math.pow(parseFloat(this.currentNumber), 2).toString();
     }
     
     squareRoot() {
