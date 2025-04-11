@@ -65,7 +65,7 @@ function historyInit() {
             }
         });
 }
-function historyClose() {
+export function historyClose() {
     script_bodyUnlock();
     document.documentElement.classList.remove('history-open');
 }

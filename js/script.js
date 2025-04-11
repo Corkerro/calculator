@@ -1,4 +1,5 @@
 import { ScientificCalculator, BinaryCalculator, Calculator, HexadecimalCalculator } from './calculator.js';
+import { historyClose } from './app.js';
 
 let calculator = new Calculator();
 
@@ -23,6 +24,7 @@ const hexadecimalModeBtn = document.getElementById('hexadecimal');
 
 const copyHistoryBtn = document.getElementById('copy-history');
 const clearHistoryBtn = document.getElementById('clear-history');
+const historyContainer = document.querySelector('.history__list');
 
 function updateHistoryDisplay() {
     document.querySelector('.history__list').innerHTML = calculator.getHistoryDisplay();
@@ -201,6 +203,20 @@ copyHistoryBtn.addEventListener('click', () => {
 clearHistoryBtn.addEventListener('click', () => {
     calculator.clearHistory();
     document.querySelector('.history__list').innerHTML = calculator.getHistoryDisplay();
+});
+
+historyContainer.addEventListener('click', (event) => {
+    const historyItem = event.target.closest('.history__item');
+    if (!historyItem) return; 
+
+    const resultElement = historyItem.querySelector('.history__result');
+    if (!resultElement) return; 
+
+    const resultValue = resultElement.textContent.trim();
+
+    calculator.currentNumber = resultValue;
+    updateScreen();
+    historyClose();
 });
 
 LogarithmBtn.addEventListener('click', () => {

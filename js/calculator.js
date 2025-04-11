@@ -354,7 +354,7 @@ export class BinaryCalculator extends Calculator {
         this.history = [];  
         this.loadHistory();
     }
-    
+
     binaryToDecimal(binaryStr) {
         return parseInt(binaryStr, 2);
     }
@@ -499,7 +499,7 @@ export class HexadecimalCalculator extends ScientificCalculator {
                 return;
         }
 
-        this.addHistory(this.lastOperation, this.decimalToHex(result));
+        this.addHistory(this.lastOperation, this.decimalToHex(result).toUpperCase());
 
         this.prevNumber = this.currentNumber;
         this.currentNumber = this.decimalToHex(result).toUpperCase();
