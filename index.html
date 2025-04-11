@@ -34,6 +34,7 @@
                                                             type="button"
                                                             data-calculator-type="standart-calculator"
                                                             class="menu__link fz-small-2 _active"
+                                                            id="standart"
                                                         >
                                                             Standart
                                                         </button>
@@ -43,6 +44,7 @@
                                                             type="button"
                                                             data-calculator-type="scientific-calculator"
                                                             class="menu__link fz-small-2"
+                                                            id="scientific"
                                                         >
                                                             Scientific
                                                         </button>
@@ -83,6 +85,7 @@
                                                             type="button"
                                                             data-calculator-system="binary"
                                                             class="menu__link fz-small-2"
+                                                            id="binary"
                                                         >
                                                             Binary
                                                         </button>
@@ -92,8 +95,9 @@
                                                             type="button"
                                                             data-calculator-system="decemal"
                                                             class="menu__link fz-small-2 _active"
+                                                            id="decimal"
                                                         >
-                                                            Decemal
+                                                            Decimal
                                                         </button>
                                                     </li>
                                                     <li class="menu__item">
@@ -101,6 +105,7 @@
                                                             type="button"
                                                             data-calculator-system="hex"
                                                             class="menu__link fz-small-2"
+                                                            id="hexadecimal"
                                                         >
                                                             Hexademical
                                                         </button>
@@ -405,7 +410,7 @@
                                     <button
                                         type="button"
                                         class="fz-medium-1 control scientific-btn"
-                                        id="reciprocal"
+                                        data-attribute="reciprocal"
                                     >
                                         1/x
                                     </button>
@@ -461,7 +466,7 @@
                                     <button
                                         type="button"
                                         class="fz-medium-1 control scientific-btn"
-                                        id="power"
+                                        data-attribute="power"
                                     >
                                         x<sup>y</sup>
                                     </button>
@@ -493,7 +498,7 @@
                                     <button
                                         type="button"
                                         class="fz-medium-1 control scientific-btn"
-                                        id="sqrt"
+                                        data-attribute="sqrt"
                                     >
                                         √x
                                     </button>
@@ -536,7 +541,7 @@
                                     >
                                         0
                                     </button>
-                                    <button type="button" class="fz-medium-1 keyboard" id="decimal">
+                                    <button type="button" class="fz-medium-1 keyboard" id="decimalDot">
                                         .
                                     </button>
                                     <button type="button" class="fz-medium-1 send" id="calculate">
@@ -548,7 +553,7 @@
                                     <button
                                         type="button"
                                         class="fz-medium-1 control"
-                                        id="reciprocal"
+                                        data-attribute="reciprocal"
                                     >
                                         1/x
                                     </button>
@@ -590,7 +595,7 @@
                                     >
                                         F
                                     </button>
-                                    <button type="button" class="fz-medium-1 control" id="power">
+                                    <button type="button" class="fz-medium-1 control" data-attribute="power">
                                         x<sup>y</sup>
                                     </button>
                                     <button type="button" class="fz-medium-1 control" id="multiply">
@@ -625,7 +630,7 @@
                                     >
                                         C
                                     </button>
-                                    <button type="button" class="fz-medium-1 control" id="sqrt">
+                                    <button type="button" class="fz-medium-1 control" data-attribute="sqrt">
                                         √x
                                     </button>
 
@@ -700,7 +705,7 @@
                                     >
                                         0
                                     </button>
-                                    <button type="button" class="fz-medium-1 keyboard" id="decimal">
+                                    <button type="button" class="fz-medium-1 keyboard" id="decimalDot">
                                         .
                                     </button>
                                     <button type="button" class="fz-medium-1 send" id="calculate">
@@ -729,7 +734,7 @@
                                     >
                                         +/-
                                     </button>
-                                    <button type="button" class="fz-medium-1 control" id="power">
+                                    <button type="button" class="fz-medium-1 control" data-attribute="power">
                                         x<sup>y</sup>
                                     </button>
                                     <button type="button" class="fz-medium-1 control" id="multiply">
@@ -837,7 +842,7 @@
                                     >
                                         0
                                     </button>
-                                    <button type="button" class="fz-medium-1 keyboard" id="decimal">
+                                    <button type="button" class="fz-medium-1 keyboard" id="decimalDot">
                                         .
                                     </button>
                                 </div>

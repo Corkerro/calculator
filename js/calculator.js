@@ -9,6 +9,10 @@ export class Calculator {
 
         this.tempOperator = '';
         this.tempNumber = '0';
+
+        this.historyKey = 'calcHistory';
+        this.history = [];
+        this.loadHistory();
     }
 
     get display() {
@@ -75,6 +79,50 @@ export class Calculator {
         }
     }
 
+    loadHistory() {
+        const stored = localStorage.getItem(this.historyKey);
+        if (stored) {
+            this.history = JSON.parse(stored);
+        }
+    }
+
+    saveHistory() {
+        localStorage.setItem(this.historyKey, JSON.stringify(this.history));
+    }
+
+    addHistory(operation, result) {
+        const entry = { operation, result };
+        this.history.push(entry);
+        this.saveHistory();
+    }
+
+    clearHistory() {
+        this.history = [];
+        this.saveHistory();
+    }
+
+    copyHistory() {
+        const historyText = this.history
+            .map(entry => `${entry.operation} ${entry.result}`)
+            .join('\n');
+        navigator.clipboard.writeText(historyText)
+            .catch(err => console.error("Error copying history: ", err));
+    }
+
+    getHistoryDisplay() {
+        if (this.history.length === 0) {
+            return '<p class="history__empty fz-medium-1">history is empty</p>';
+        }
+        return this.history
+            .map(entry => `
+                <li class="history__item">
+                    <p class="history__value fz-small-3">${entry.operation}</p>
+                    <p class="history__result fz-medium-1">${entry.result}</p>
+                </li>
+            `)
+            .join('');
+    }
+
     setOperator(operator) {
         if (operator === '+/-') {
             this.toggleSign();
@@ -107,7 +155,7 @@ export class Calculator {
     calculate() {
         const num1 = parseFloat(this.justCalculated ? this.currentNumber : this.prevNumber);
         const num2 = parseFloat(this.justCalculated ? this.prevNumber : this.currentNumber);
-
+        
         this.lastOperation = `${num1} ${this.operator} ${num2} =`;
 
         let result;
@@ -135,6 +183,7 @@ export class Calculator {
                 return;
         }
 
+        this.addHistory(this.lastOperation, result.toString());
         this.prevNumber = num2;
         this.currentNumber = result.toString();
 
@@ -163,9 +212,25 @@ export class Calculator {
 
     // --- Memory Methods ---
 
+    containsLetters(str) {
+        return /[a-fA-F]/.test(str);
+    }
+
+    containsOnlyBinaryDigits(str) {
+        return /^[01]+$/.test(str);
+    }
+
     getMemory() {
         const stored = localStorage.getItem(this.memoryKey);
-        return stored !== null ? parseFloat(stored) : 0;
+        if (stored === null) return 0;
+
+        if (this.containsLetters(stored)) {
+            return stored;
+        } else if (this.containsOnlyBinaryDigits(stored)) {
+            return stored;
+        } else {
+            return parseFloat(stored);
+        }
     }
 
     setMemory(value) {
@@ -177,18 +242,57 @@ export class Calculator {
     }
 
     memoryRecall() {
-        this.currentNumber = this.getMemory().toString();
+        let mem = this.getMemory();
+
+        if (this.containsLetters(mem)) {
+            this.currentNumber = mem;
+        } else {
+            this.currentNumber = mem.toString();
+        }
     }
 
     memoryAdd() {
-        const mem = this.getMemory();
-        this.setMemory(mem + parseFloat(this.currentNumber));
+        let mem = this.getMemory();
+
+        if (this.containsLetters(this.currentNumber)) {
+            const memValue = parseInt(mem, 16);
+            const currentValue = parseInt(this.currentNumber, 16);
+            const newMemory = memValue + currentValue;
+
+            this.setMemory(newMemory.toString(16));
+        }
+        else if (this.containsOnlyBinaryDigits(this.currentNumber)) {
+            const memValue = parseInt(mem, 2);
+            const currentValue = parseInt(this.currentNumber, 2);
+            const newMemory = memValue + currentValue;
+
+            this.setMemory(newMemory.toString(2));
+        }
+        else {
+            this.setMemory(parseFloat(mem) + parseFloat(this.currentNumber));
+        }
     }
 
     memorySubtract() {
-        const mem = this.getMemory();
-        this.setMemory(mem - parseFloat(this.currentNumber));
+        let mem = this.getMemory();
+
+        if (this.containsLetters(mem)) {
+            const memValue = parseInt(mem, 16);
+            const currentValue = parseInt(this.currentNumber, 16);
+            const newMemory = memValue - currentValue;
+            this.setMemory(newMemory.toString(16));
+        }
+        else if (this.containsOnlyBinaryDigits(this.currentNumber)) {
+            const memValue = parseInt(mem, 2);
+            const currentValue = parseInt(this.currentNumber, 2);
+            const newMemory = memValue - currentValue;
+            this.setMemory(newMemory.toString(2));
+        }
+        else {
+            this.setMemory(parseFloat(mem) - parseFloat(this.currentNumber));
+        }
     }
+
 }
 
 export class ScientificCalculator extends Calculator {
@@ -308,3 +412,60 @@ export class BinaryCalculator extends Calculator {
         this.justCalculated = true;
     }
 }
+
+export class HexadecimalCalculator extends ScientificCalculator {
+    constructor() {
+        super();
+        this.isHexadecimalMode = true;
+        this.currentNumber = '';
+    }
+
+    hexToDecimal(hexStr) {
+        return parseInt(hexStr, 16);
+    }
+
+    decimalToHex(decimalNumber) {
+        return decimalNumber.toString(16);
+    }
+
+    clear() {
+        this.currentNumber = '';
+        this.reset();
+    }
+
+    calculate() {
+        const num1 = this.hexToDecimal(this.prevNumber);
+        const num2 = this.hexToDecimal(this.currentNumber);
+
+        this.lastOperation = `${this.prevNumber} ${this.operator} ${this.currentNumber} =`;
+
+        let result;
+        switch (this.operator) {
+            case '+':
+                result = num1 + num2;
+                break;
+            case '-':
+                result = num1 - num2;
+                break;
+            case '*':
+                result = num1 * num2;
+                break;
+            case '/':
+                result = num1 / num2;
+                break;
+            case '%':
+                result = num1 * (num2 / 100);
+                break;
+            case 'y':
+            case 'xy':
+                result = Math.pow(num1, num2);
+                break;
+            default:
+                return;
+        }
+        this.prevNumber = this.currentNumber;
+        this.currentNumber = this.decimalToHex(result);
+        this.justCalculated = true;
+    }
+}
+

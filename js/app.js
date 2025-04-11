@@ -223,7 +223,7 @@ selects.forEach((sel) => {
 });
 
 const convertValues = () => {
-    console.log('Convert');
+    //console.log('Convert');
 
     const convertLengthFrom = document.querySelector(
         '.display._convertor.convert-length .top select',
