@@ -1,6 +1,6 @@
 import { ScientificCalculator, BinaryCalculator, Calculator, HexadecimalCalculator } from './calculator.js';
 
-let calculator = new ScientificCalculator();
+let calculator = new Calculator();
 
 const calculatorScreen = document.querySelector('.display__result.fz-big-1');
 const lastOperation = document.querySelector('#last-operation');
@@ -27,6 +27,10 @@ const clearHistoryBtn = document.getElementById('clear-history');
 function updateHistoryDisplay() {
     document.querySelector('.history__list').innerHTML = calculator.getHistoryDisplay();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateHistoryDisplay();
+})
 
 const updateScreen = () => {
     calculatorScreen.textContent = calculator.display;
@@ -101,6 +105,7 @@ window.addEventListener('keydown', (event) => {
         case '=':
             calculator.calculate();
             updateScreen();
+            updateHistoryDisplay();
             return;
         case 'Escape':
             calculator.clear();
@@ -127,12 +132,25 @@ window.addEventListener('keydown', (event) => {
             updateScreen();
             return;
         }
+
+        if (['+', '-', '*', '/', '%'].includes(key)) {
+            calculator.setOperator(key);
+            updateScreen();
+            return;
+        }
     } else if (calculator.isBinaryMode) {
         if (key === '0' || key === '1') {
             calculator.inputNumber(key);
             updateScreen();
             return;
         }
+
+        if (['+', '-', '*', '/', '%'].includes(key)) {
+            calculator.setOperator(key);
+            updateScreen();
+            return;
+        }
+
     } else { 
         if (key >= '0' && key <= '9') {
             calculator.inputNumber(key);
@@ -193,19 +211,23 @@ LogarithmBtn.addEventListener('click', () => {
 binaryModeBtn.addEventListener('click', () => {
     calculator = new BinaryCalculator();
     updateScreen();
+    updateHistoryDisplay();
 });
 
 scientificModeBtn.addEventListener('click', () => {
     calculator = new ScientificCalculator();
     updateScreen();
+    updateHistoryDisplay();
 });
 
 decimalModeBtn.addEventListener('click', () => {
     calculator = new Calculator();
     updateScreen();
+    updateHistoryDisplay();
 });
 
 hexadecimalModeBtn.addEventListener('click', () => {
     calculator = new HexadecimalCalculator();
     updateScreen();
+    updateHistoryDisplay();
 });

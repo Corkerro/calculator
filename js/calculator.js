@@ -298,6 +298,8 @@ export class Calculator {
 export class ScientificCalculator extends Calculator {
     constructor() {
         super();
+        this.historyKey = 'calcHistory';
+        this.loadHistory();
     }
 
     reciprocal() {
@@ -346,8 +348,13 @@ export class BinaryCalculator extends Calculator {
     constructor() {
         super();
         this.isBinaryMode = true;
-        this.currentNumber = '';
+        this.currentNumber = '0';
+
+        this.historyKey = 'calcBinaryHistory';
+        this.history = [];  
+        this.loadHistory();
     }
+    
     binaryToDecimal(binaryStr) {
         return parseInt(binaryStr, 2);
     }
@@ -357,7 +364,7 @@ export class BinaryCalculator extends Calculator {
     }
 
     clear() {
-        this.currentNumber = '';
+        this.currentNumber = '0';
         this.reset();
     }
 
@@ -374,7 +381,11 @@ export class BinaryCalculator extends Calculator {
             this.tempOperator = '';
         }
 
-        this.currentNumber += number;
+        if (this.currentNumber === '0') {
+            this.currentNumber = (this.currentNumber === '0' ? '0' : '') + number;
+        } else {
+            this.currentNumber += number;
+        }
     }
 
     calculate() {
@@ -407,6 +418,9 @@ export class BinaryCalculator extends Calculator {
             default:
                 return;
         }
+
+        this.addHistory(this.lastOperation, this.decimalToBinary(result));
+
         this.prevNumber = this.currentNumber;
         this.currentNumber = this.decimalToBinary(result);
         this.justCalculated = true;
@@ -417,7 +431,10 @@ export class HexadecimalCalculator extends ScientificCalculator {
     constructor() {
         super();
         this.isHexadecimalMode = true;
-        this.currentNumber = '';
+        this.currentNumber = '0';
+
+        this.historyKey = 'calcHexHistory';
+        this.loadHistory();
     }
 
     hexToDecimal(hexStr) {
@@ -429,8 +446,26 @@ export class HexadecimalCalculator extends ScientificCalculator {
     }
 
     clear() {
-        this.currentNumber = '';
+        this.currentNumber = '0';
         this.reset();
+    }
+
+    inputNumber(number) {
+        if (this.justCalculated) {
+            this.justCalculated = false;
+            this.clear();
+        }
+
+        if (this.tempOperator !== '') {
+            this.currentNumber = '0';
+            this.tempOperator = '';
+        }
+
+        if (this.currentNumber === '0' || this.currentNumber === '-') {
+            this.currentNumber = (this.currentNumber === '-' ? '-' : '') + number.toUpperCase();
+        } else {
+            this.currentNumber += number.toUpperCase();
+        }
     }
 
     calculate() {
@@ -463,8 +498,11 @@ export class HexadecimalCalculator extends ScientificCalculator {
             default:
                 return;
         }
+
+        this.addHistory(this.lastOperation, this.decimalToHex(result));
+
         this.prevNumber = this.currentNumber;
-        this.currentNumber = this.decimalToHex(result);
+        this.currentNumber = this.decimalToHex(result).toUpperCase();
         this.justCalculated = true;
     }
 }
