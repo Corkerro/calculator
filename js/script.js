@@ -25,6 +25,7 @@ const hexadecimalModeBtn = document.getElementById('hexadecimal');
 const copyHistoryBtn = document.getElementById('copy-history');
 const clearHistoryBtn = document.getElementById('clear-history');
 const historyContainer = document.querySelector('.history__list');
+const pasteHistoryBtn = document.getElementById('paste-history');
 
 function updateHistoryDisplay() {
     const historyContainer = document.querySelector('.history__list');
@@ -64,11 +65,16 @@ operators.forEach((operator) => {
 
 equalSign.forEach((btn) => {
     btn.addEventListener('click', () => {
-        calculator.calculate();
-        updateScreen();
-        updateHistoryDisplay();
+        if (calculator.operator === '') {
+            updateScreen();
+        } else {
+            calculator.calculate();
+            updateScreen();
+            updateHistoryDisplay();
+        }
     });
 });
+
 
 clearBtn.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -220,6 +226,30 @@ historyContainer.addEventListener('click', (event) => {
     updateScreen();
     historyClose();
     document.querySelector('#last-operation').textContent = '';
+});
+
+pasteHistoryBtn.addEventListener('click', () => {
+    navigator.clipboard.readText().then(text => {
+        const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+        
+        lines.forEach(line => {
+            const eqIndex = line.lastIndexOf('=');
+            if (eqIndex === -1) {
+                return;
+            }
+            
+            const operation = line.substring(0, eqIndex + 1).trim();
+            const result = line.substring(eqIndex + 1).trim();
+            
+            calculator.addHistory(operation, result);
+        });
+        
+        calculator.saveHistory();
+        
+        updateHistoryDisplay();
+    }).catch(err => {
+        console.error('error reading clipboard:', err);
+    });
 });
 
 LogarithmBtn.addEventListener('click', () => {
