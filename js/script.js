@@ -219,6 +219,7 @@ historyContainer.addEventListener('click', (event) => {
     calculator.currentNumber = resultValue;
     updateScreen();
     historyClose();
+    document.querySelector('#last-operation').textContent = '';
 });
 
 LogarithmBtn.addEventListener('click', () => {
