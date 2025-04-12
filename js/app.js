@@ -172,7 +172,7 @@ const convertor = new Convertor();
 
 const clearBtn = document.querySelectorAll('#clear');
 const numbers = document.querySelectorAll('[id^="number-"]');
-const decimal = document.querySelectorAll('#decimal');
+const decimal = document.querySelectorAll('#decimalDot');
 const initScreen = document.querySelectorAll('.display .top .init-input');
 const calculateScreen = document.querySelectorAll('.display .down .calculate-text');
 
