@@ -434,6 +434,7 @@ export class HexadecimalCalculator extends ScientificCalculator {
         this.currentNumber = '0';
 
         this.historyKey = 'calcHexHistory';
+        this.history = [];
         this.loadHistory();
     }
 

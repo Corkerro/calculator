@@ -27,7 +27,9 @@ const clearHistoryBtn = document.getElementById('clear-history');
 const historyContainer = document.querySelector('.history__list');
 
 function updateHistoryDisplay() {
-    document.querySelector('.history__list').innerHTML = calculator.getHistoryDisplay();
+    const historyContainer = document.querySelector('.history__list');
+    historyContainer.innerHTML = '';
+    historyContainer.innerHTML = calculator.getHistoryDisplay();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
