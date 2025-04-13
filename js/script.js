@@ -65,6 +65,10 @@ operators.forEach((operator) => {
 
 equalSign.forEach((btn) => {
     btn.addEventListener('click', () => {
+        if (calculator.currentNumber === '-' || calculator.prevNumber === '-') {
+            updateScreen();
+            return;
+        }
         if (calculator.operator === '') {
             updateScreen();
         } else {
@@ -113,9 +117,17 @@ window.addEventListener('keydown', (event) => {
     switch (key) {
         case 'Enter':
         case '=':
-            calculator.calculate();
-            updateScreen();
-            updateHistoryDisplay();
+            if (calculator.currentNumber === '-' || calculator.prevNumber === '-') {
+                updateScreen();
+                return;
+            }
+            if (calculator.operator === '') {
+                updateScreen();
+            } else {
+                calculator.calculate();
+                updateScreen();
+                updateHistoryDisplay();
+            }
             return;
         case 'Escape':
             calculator.clear();
